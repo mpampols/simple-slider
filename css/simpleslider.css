@@ -1,0 +1,50 @@
+/**
+ * Slider
+ */
+#slider > div {
+    display:block;
+    opacity: 1;
+}
+
+#slider {
+    height: 100%;
+}
+
+#slider .slider-image {
+    background-position: center center;
+    background-size: cover;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+/**
+ * Slider controls
+ */
+#slider-controls {
+    display: block;
+    position: absolute;
+    text-align: center;
+    top: 58%;
+    width: auto;
+}
+
+#slider-controls li {
+    display:inline;
+}
+
+#slider-controls li a {
+    display: inline-block;
+    height: 16px;
+    margin-right: 10px;
+    width: 16px;
+    background-color: rgb(148, 148, 148);
+    border-radius: 5px;
+}
+
+#slider-controls li:hover a,
+#slider-controls li.selected a {
+    background-color: rgb(0, 0, 0);
+}
