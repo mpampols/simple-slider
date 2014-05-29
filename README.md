@@ -1,11 +1,11 @@
-#simpleSlider 1.0
+#simpleSlider 0.2
 ##Description
 
-TODO
+A simple image slider with controls.
+
+by: Marc Pampols [http://marcpampols.com](http://marcpampols.com)
 
 ##Step 1: Installation
-
-TODO
 
 ```html
 <!-- jQuery library -->
@@ -30,11 +30,11 @@ $(document).ready(function(){
 
 ###General
 
-**transition**
+**transitionSpeed**
 Type of transition between slides
 ```
 default: 'slow'
-options: 'slow', 'fase'
+options: 'slow', 'fast'
 ```
 
 **firstActive**
@@ -42,9 +42,25 @@ Set the first slide to be active
 
 **order**
 Set the slider ordering
+```
+default: 'asc'
+options: 'asc', 'desc', 'random'
+```
+
+**autoplay**
+Enable/disable autoplay
+```
+default: false
+options: true, false
+```
+
 
 ## Changelog
 
-### Version 1.0
+### Version 0.2
 
-* TODO
+* cleanup and some enhancements
+
+### Version 0.1
+
+* first commit

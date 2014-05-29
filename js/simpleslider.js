@@ -5,12 +5,13 @@
     $.fn.simpleSlider = function(o) {
 
         var options = {
-            transition    : "slow", // Type of transition between slides
-            firstActive   : 1,      // Set the first slide to be active
-            order         : "asc"   // Set the slider ordering
+            transitionSpeed : "slow", // type of transition between slides
+            firstActive     : 1,      // set the first slide to be active
+            order           : "random", // set the slider ordering ("asc", "desc" or "random")
+            autoPlay        : false   // enable auto-play on slides
         };
 
-        var selector      = this.selector; // Current slider selector
+        var selector      = this.selector; // current slider selector
 
         var sliders       = null;
         var num_sliders   = 0;
@@ -27,20 +28,52 @@
             setDefaultActiveSlider();
         };
 
+        /**
+         * finds the image sliders using the selector
+         *
+         * @param slider_selector
+         * @returns {*}
+         */
         var findSliders = function(slider_selector) {
-            return $(slider_selector).children();
+            return $(slider_selector).children('.slider-image');
         };
 
+        /**
+         * applies the settings.order to slider elements
+         */
         var orderSliders = function() {
+            switch(settings.order) {
+                case "asc":
+                    // default, do nothing
+                    break;
+                case "desc":
+                    // reverse sliders order
+                    $(slider_object).children("div[data-imagenum]").each(
+                        function(key, value) {
+                            $(slider_object).prepend(value)
+                        }
+                    );
+                    break;
+                case "random":
+                    var slider_array = $(sliders).detach();
+                    for (var x = (slider_array.length - 1);x > 0; x--) {
+                        var y = Math.floor(Math.random() * (x + 1));
+                        var temp = slider_array[x];
+                        slider_array[x] = slider_array[y];
+                        slider_array[y] = temp;
+                    }
+                    $(slider_array).prependTo($(slider_object));
+                    break;
+            }
+
+            sliders = findSliders(slider_object);
             $.each(sliders, function(key, value) {
-               $(this).attr("data-imagenum", key);
+                $(this).attr("data-imagenum", key);
             });
         };
 
         /**
-         * Adds controls for the slider right after them
-         *
-         * @param num_sliders number of sliders found
+         * adds controls for the slider right after them
          */
         var addSliderControls = function() {
             var $controls_container = $("<div id=\"slider-controls\"></div>");
@@ -67,7 +100,7 @@
 
         // set a default active slider
         var setDefaultActiveSlider = function() {
-            var active_slider = options.firstActive - 1;
+            var active_slider = settings.firstActive - 1;
             showOnlySlider(active_slider);
         };
 
@@ -75,7 +108,7 @@
         var changeSlide = function() {
             var selected_slider = this.dataset.slidernum;
             var controls = $("#slider-controls").find("a");
-            showOnlySlider(this.dataset.slidernum);
+            showOnlySlider(selected_slider);
         };
 
         // hides all sliders but numslider
@@ -83,7 +116,7 @@
             $("#slider-controls").find("a[data-slidernum=" + numslider + "]").parent().addClass("selected");
             $(sliders).each(function(key, value) {
                 if ($(this).data('imagenum') == numslider) {
-                    $(this).fadeIn("slow");
+                    $(this).fadeIn(settings.transitionSpeed);
                 } else {
                     $(this).hide();
                     $("#slider-controls").find("a[data-slidernum=" + key + "]").parent().removeClass("selected");

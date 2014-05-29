@@ -1,0 +1,23 @@
+{
+    "name": "simpleslider",
+    "version": "0.2",
+    "homepage": "https://github.com/mpampols/simpleSlider",
+    "license": "MIT",
+    "main": [
+        "js/simpleslider.js",
+        "css/simpleslider.css"
+    ],
+    "keywords": [
+        "simpleslider",
+        "javascript",
+        "jquery",
+        "library"
+    ],
+    "ignore": [
+        "**/.*",
+        "*.md"
+    ],
+    "dependencies": {
+        "jquery": ">=1.6"
+    }
+}
