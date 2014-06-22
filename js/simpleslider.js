@@ -5,10 +5,11 @@
     $.fn.simpleSlider = function(o) {
 
         var options = {
-            transitionSpeed : "slow", // type of transition between slides
-            firstActive     : 1,      // set the first slide to be active
-            order           : "random", // set the slider ordering ("asc", "desc" or "random")
-            autoPlay        : false   // enable auto-play on slides
+            transitionSpeed  : "slow", // type of transition between slides
+            firstActive      : 1,      // set the first slide to be active
+            order            : "asc",  // set the slider ordering ("asc", "desc" or "random")
+            autoPlay         : false,  // enable auto-play on slides
+            autoPlayDelay    : 4500   // time in miliseconds to wait til load the next slide
         };
 
         var selector      = this.selector; // current slider selector
@@ -22,10 +23,16 @@
         var init = function() {
             slider_object = $(selector);
             sliders = findSliders(slider_object);
+            
             num_sliders = sliders.length;
+            
             addSliderControls();
             orderSliders();
             setDefaultActiveSlider();
+            
+            if (settings.autoPlay) {
+                enableAutoPlay();
+            }
         };
 
         /**
@@ -98,31 +105,58 @@
             $("#slider-controls").find("a").on("click", changeSlide);
         };
 
-        // set a default active slider
+        /**
+         * set a default active slider
+         */
         var setDefaultActiveSlider = function() {
             var active_slider = settings.firstActive - 1;
             showOnlySlider(active_slider);
         };
 
-        // change slider function
+        /**
+         * change slider function
+         */
         var changeSlide = function() {
             var selected_slider = this.dataset.slidernum;
             var controls = $("#slider-controls").find("a");
             showOnlySlider(selected_slider);
         };
 
-        // hides all sliders but numslider
+        /**
+         * hides all sliders but numslider
+         * @param numslider
+         */
         var showOnlySlider = function(numslider) {
             $("#slider-controls").find("a[data-slidernum=" + numslider + "]").parent().addClass("selected");
+            $("#slider").find("div[data-imagenum=" + numslider + "]").addClass("selected");
             $(sliders).each(function(key, value) {
                 if ($(this).data('imagenum') == numslider) {
                     $(this).fadeIn(settings.transitionSpeed);
                 } else {
                     $(this).hide();
                     $("#slider-controls").find("a[data-slidernum=" + key + "]").parent().removeClass("selected");
+                    $("#slider").find("div[data-imagenum=" + key + "]").removeClass("selected");
                 }
             });
-        }
+        };
+
+        /**
+         * changes to the next slide
+         */
+        var goToNextSlide = function() {
+            var active_slider = $(slider_object).find(".slider-image.selected").data("imagenum");
+            var next_slider = ((active_slider + 1) === num_sliders ? 0 : active_slider + 1);
+            showOnlySlider(next_slider);
+        };
+
+        /**
+         * Enables AutoPlay feature
+         */
+        var enableAutoPlay = function() {
+            setInterval(
+                goToNextSlide
+                , options.autoPlayDelay);
+        };
 
         init();
 

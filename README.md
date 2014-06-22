@@ -1,4 +1,4 @@
-#simpleSlider 0.2
+#simpleSlider 0.3
 ##Description
 
 A simple image slider with controls.
@@ -47,15 +47,27 @@ default: 'asc'
 options: 'asc', 'desc', 'random'
 ```
 
-**autoplay**
+**autoPlay**
 Enable/disable autoplay
 ```
 default: false
 options: true, false
 ```
 
+**autoPlayDelay**
+Autoplay delay in miliseconds
+```
+default: 4500
+```
+
 
 ## Changelog
+
+### Version 0.3
+
+* added autoPlay and autoPlayDelay
+* minor bug fixes and improvements
+* added minified versions of .js and .css files
 
 ### Version 0.2
 
